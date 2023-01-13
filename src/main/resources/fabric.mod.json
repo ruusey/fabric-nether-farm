@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "spawnmod",
+  "version": "1.0.1",
+
+  "name": "Nether Spawn Criteria Modifier",
+  "description": "Remove light level limitations for wither skeletons and skeletons. Re-Enabling the 1.19.2 Nether Farm",
+  "authors": [
+    "Me!"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/ruusey/fabric-nether-farm"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/spawnmod/icon.png",
+
+  "environment": "*",
+  
+  "mixins": [
+	"spawnmod.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.11",
+    "fabric-api": "*",
+    "minecraft": "~1.19.3",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
