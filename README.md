@@ -1,6 +1,6 @@
-# HopR - BetterHoppers for Minecraft
+# SpawnMod - Remove the light spawn condition changes in the nether for MC 1.19.3.
 
-![](hopr.gif)
+![](spawnmod.gif)
 
 ## Setup
 Becuase I write tons of java i have 100000 JDKs installed *SO PLEASE* change this line or remove it from `gradle.properties`
@@ -8,9 +8,11 @@ Becuase I write tons of java i have 100000 JDKs installed *SO PLEASE* change thi
 - This was something i personally needed to add to not interfere with other development environments I have locally :)
 
 Required fabric loader 0.14.11 And Fabric API to run on your server/Fabric Loader to run on your client.
-No theres no setup or config this item is stupid OP. `/give @p hopr:hopperplus` 
-and enjoy your unthrottled item transfer 
-*(20/s)* assuming your server isnt garbo
+
+## Notes From The Author
+- While im still getting familiar with Fabric's Api and SpongePowered Mixins, I was only able to completely remove the spawning logic checks in *MobEntity.class*
+  for all invocations of the static methods where the EntityType is either skeleton or wither_skeleton and the Dimension is the nether.
+  Please feel free to open a PR to improve this much love
 
 ## Manual Building
 
