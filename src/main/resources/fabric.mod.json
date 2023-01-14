@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "spawnmod",
-  "version": "1.0.1",
+  "version": "1.0.2",
 
   "name": "Nether Spawn Criteria Modifier",
   "description": "Remove light level limitations for wither skeletons and skeletons. Re-Enabling the 1.19.2 Nether Farm",
