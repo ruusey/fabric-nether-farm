@@ -17,7 +17,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.dimension.DimensionType;
 
 @Mixin(HostileEntity.class)
@@ -33,35 +32,16 @@ public class MobSpawnMixin {
 	private static final EntityType<?> WITHER_SKELETON_ENTITY = Registries.ENTITY_TYPE.get(WITHER_SKELETON_ID);
 	private static final EntityType<?> SKELETON_ENTITY = Registries.ENTITY_TYPE.get(SKELETON_ID);
 
-	@Inject(method = "canSpawnIgnoreLightLevel", at = @At("RETURN"), cancellable = true)
-	private static void injectSpawn1(EntityType<? extends HostileEntity> entityType, WorldAccess worldAccess,
-			SpawnReason spawnReason, BlockPos blockPos, Random random, CallbackInfoReturnable<Boolean> cir) {
-		DimensionType dt = worldAccess.getDimension();
-
-		if ((entityType.equals(SKELETON_ENTITY) || entityType.equals(SKELETON_ENTITY)) && dt.equals(NETHER_DIMENSION)
-				&& !worldAccess.isClient())
-			cir.setReturnValue(true);
-	}
-
 	@Inject(method = "canSpawnInDark", at = @At("RETURN"), cancellable = true)
 	private static void injectSpawn2(EntityType<? extends HostileEntity> entityType,
 			ServerWorldAccess serverWorldAccess, SpawnReason spawnReason, BlockPos blockPos, Random random,
 			CallbackInfoReturnable<Boolean> cir) {
 
 		DimensionType dt = serverWorldAccess.getDimension();
-
 		if ((entityType.equals(SKELETON_ENTITY) || entityType.equals(WITHER_SKELETON_ENTITY))
-				&& dt.equals(NETHER_DIMENSION) && !serverWorldAccess.isClient())
+				&& dt.effects().equals(NETHER_DIMENSION.effects())) {
 			cir.setReturnValue(true);
-
-	}
-
-	@Inject(method = "isSpawnDark", at = @At("RETURN"), cancellable = true)
-	private static void injectSpawn3(ServerWorldAccess serverWorldAccess, BlockPos blockPos, Random random,
-			CallbackInfoReturnable<Boolean> cir) {
-		DimensionType dt = serverWorldAccess.getDimension();
-		if (dt.equals(NETHER_DIMENSION))
-			cir.setReturnValue(true);
+		}
 	}
 
 	private static RegistryKey<DimensionType> of(String string) {
