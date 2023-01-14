@@ -12,7 +12,7 @@ Required fabric loader 0.14.11 And Fabric API to run on your server/Fabric Loade
 ## Notes From The Author
 - While im still getting familiar with Fabric's Api and SpongePowered Mixins, I was only able to completely remove the spawning logic checks in *MobEntity.class*
   for all invocations of the static methods where the EntityType is either skeleton or wither_skeleton and the Dimension is the nether.
-  Please feel free to open a PR to improve this much love
+  Please feel free to open a PR to improve this. much love, RU_SIF
 
 ## Manual Building
 
