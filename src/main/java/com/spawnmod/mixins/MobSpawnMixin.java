@@ -22,24 +22,24 @@ import net.minecraft.world.dimension.DimensionType;
 
 @Mixin(HostileEntity.class)
 public class MobSpawnMixin {
-	private static final Identifier wSkeleId = new Identifier("minecraft:wither_skeleton");
-	private static final Identifier skeleId = new Identifier("minecraft:skeleton");
-	private static final RegistryKey<DimensionType> OVERWORLD = of("overworld");
+	private static final Identifier WITHER_SKELETON_ID = new Identifier("minecraft:wither_skeleton");
+	private static final Identifier SKELETON_ID = new Identifier("minecraft:skeleton");
 
 	private static final RegistryKey<DimensionType> THE_NETHER = of("the_nether");
+	private static final Impl<DimensionType> DIMENSION_REG = BuiltinRegistries.createWrapperLookup()
+			.getOptionalWrapper(RegistryKeys.DIMENSION_TYPE).get();
+
+	private static final DimensionType NETHER_DIMENSION = DIMENSION_REG.getOptional(THE_NETHER).get().comp_349();
+	private static final EntityType<?> WITHER_SKELETON_ENTITY = Registries.ENTITY_TYPE.get(WITHER_SKELETON_ID);
+	private static final EntityType<?> SKELETON_ENTITY = Registries.ENTITY_TYPE.get(SKELETON_ID);
 
 	@Inject(method = "canSpawnIgnoreLightLevel", at = @At("RETURN"), cancellable = true)
 	private static void injectSpawn1(EntityType<? extends HostileEntity> entityType, WorldAccess worldAccess,
 			SpawnReason spawnReason, BlockPos blockPos, Random random, CallbackInfoReturnable<Boolean> cir) {
-//	 
-		EntityType<?> wSkeleEntity = Registries.ENTITY_TYPE.get(wSkeleId);
-		EntityType<?> skeleEntity = Registries.ENTITY_TYPE.get(skeleId);
 		DimensionType dt = worldAccess.getDimension();
-		Impl<DimensionType> ty = BuiltinRegistries.createWrapperLookup().getOptionalWrapper(RegistryKeys.DIMENSION_TYPE)
-				.get();
-		DimensionType nether = ty.getOptional(THE_NETHER).get().comp_349();
 
-		if ((entityType.equals(skeleEntity) || entityType.equals(wSkeleEntity)) && dt.equals(nether))
+		if ((entityType.equals(SKELETON_ENTITY) || entityType.equals(SKELETON_ENTITY)) && dt.equals(NETHER_DIMENSION)
+				&& !worldAccess.isClient())
 			cir.setReturnValue(true);
 	}
 
@@ -47,14 +47,11 @@ public class MobSpawnMixin {
 	private static void injectSpawn2(EntityType<? extends HostileEntity> entityType,
 			ServerWorldAccess serverWorldAccess, SpawnReason spawnReason, BlockPos blockPos, Random random,
 			CallbackInfoReturnable<Boolean> cir) {
-		EntityType<?> wSkeleEntity = Registries.ENTITY_TYPE.get(wSkeleId);
-		EntityType<?> skeleEntity = Registries.ENTITY_TYPE.get(skeleId);
-		DimensionType dt = serverWorldAccess.getDimension();
-		Impl<DimensionType> ty = BuiltinRegistries.createWrapperLookup().getOptionalWrapper(RegistryKeys.DIMENSION_TYPE)
-				.get();
-		DimensionType nether = ty.getOptional(THE_NETHER).get().comp_349();
 
-		if ((entityType.equals(skeleEntity) || entityType.equals(wSkeleEntity)) && dt.equals(nether))
+		DimensionType dt = serverWorldAccess.getDimension();
+
+		if ((entityType.equals(SKELETON_ENTITY) || entityType.equals(WITHER_SKELETON_ENTITY))
+				&& dt.equals(NETHER_DIMENSION) && !serverWorldAccess.isClient())
 			cir.setReturnValue(true);
 
 	}
@@ -62,7 +59,9 @@ public class MobSpawnMixin {
 	@Inject(method = "isSpawnDark", at = @At("RETURN"), cancellable = true)
 	private static void injectSpawn3(ServerWorldAccess serverWorldAccess, BlockPos blockPos, Random random,
 			CallbackInfoReturnable<Boolean> cir) {
-		cir.setReturnValue(true);
+		DimensionType dt = serverWorldAccess.getDimension();
+		if (dt.equals(NETHER_DIMENSION))
+			cir.setReturnValue(true);
 	}
 
 	private static RegistryKey<DimensionType> of(String string) {

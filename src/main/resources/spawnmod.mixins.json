@@ -1,11 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.hopr.mixins",
+  "package": "com.spawnmod.mixins",
   "compatibilityLevel": "JAVA_17",
-  "mixins": ["MobSpawnMixin"],
+  "mixins": [],
   "client": [],
-  "server": [],
+  "server": ["MobSpawnMixin"],
   "injectors": {
     "defaultRequire": 1
   }
