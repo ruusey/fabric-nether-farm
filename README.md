@@ -7,7 +7,7 @@ Becuase I write tons of java i have 100000 JDKs installed *SO PLEASE* change thi
 `org.gradle.java.home=D:/Programs/java/jdk-19.0` 
 - This was something i personally needed to add to not interfere with other development environments I have locally :)
 
-Required fabric loader 0.14.11 And Fabric API to run on your server/Fabric Loader to run on your client.
+Requireds Fabric Loader 0.14.12 (client) And Fabric API (server) to run this mod on your server. Get them [HERE](https://fabricmc.net/develop/)
 
 ## Notes From The Author
 - While im still getting familiar with Fabric's Api and SpongePowered Mixins, I was only able to completely remove the spawning logic checks in *MobEntity.class*
